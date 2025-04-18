@@ -1,0 +1,88 @@
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList } from "react-native";
+import { FlashList } from "@shopify/flash-list";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+type Produto = {
+  _id?: string,
+  nome: string,
+  preco: number
+}
+
+const API_URL = 'http://localhost:3000';
+
+export default function App() {
+  const [produtos, setTarefas] = useState<Produto[]>([]);
+  const [nomeProduto, setNomeProduto] = useState('');
+  const [nprecoProduto, precoProduto] = useState(0);
+
+  useEffect(() => {
+    getProdutos();
+  }, [])
+
+  const getProdutos = async () => {
+    try {
+      const resposta = await axios.get(`${API_URL}/produtos`);
+      const listaDeProdutos : Produto[] = [];
+      for (let i = 0; i < resposta.data.length; i++) {
+        listaDeProdutos.push({
+          _id: resposta.data[i]. _id,
+          nome: resposta.data[i]. nome,
+          preco: resposta.data[i]. preco,
+        });
+      } 
+
+    } catch (error) {
+      console.error('[ERRO]: em Get do /produtos')
+    }
+  };
+
+  const addProduto = () => {
+    
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.linha}>
+        <TextInput style={styles.input} value={nomeProduto} placeholder="Digite algo..." onChangeText={setNomeProduto}></TextInput>
+        <TouchableOpacity style={styles.button} onPress={addProduto}>
+          <Text style={{color: 'white'}}>Add</Text>
+        </TouchableOpacity>
+      </View>
+      <FlashList
+        data={produtos}
+        renderItem={  ({ item }) => <Text style={styles.item}>{nomeProduto}</Text>   }
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 20,
+  },
+  item: {
+    backgroundColor: '#8aff86',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  input: {
+    borderWidth: 1,
+    borderRadius: 5,
+    width: '60%',
+    padding: 5
+  },
+  button: {
+    backgroundColor: 'blue',
+    width: 50,
+    padding: 10,
+    borderRadius: 5,
+    alignContent: 'center'
+  },
+  linha: {
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  }
+});
