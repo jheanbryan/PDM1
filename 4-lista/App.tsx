@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList } from "r
 import { FlashList } from "@shopify/flash-list";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { MaterialIcons } from "@expo/vector-icons";
 
 type Produto = {
   _id?: string,
@@ -12,7 +13,7 @@ type Produto = {
 const API_URL = 'http://localhost:3000';
 
 export default function App() {
-  const [produtos, setTarefas] = useState<Produto[]>([]);
+  const [produtos, setProdutos] = useState<Produto[]>([]);
   const [nomeProduto, setNomeProduto] = useState('');
   const [nprecoProduto, precoProduto] = useState(0);
 
@@ -24,13 +25,15 @@ export default function App() {
     try {
       const resposta = await axios.get(`${API_URL}/produtos`);
       const listaDeProdutos : Produto[] = [];
+      console.log(resposta)
       for (let i = 0; i < resposta.data.length; i++) {
         listaDeProdutos.push({
-          _id: resposta.data[i]. _id,
-          nome: resposta.data[i]. nome,
-          preco: resposta.data[i]. preco,
+          _id: resposta.data[i]._id,
+          nome: resposta.data[i].nome,
+          preco: resposta.data[i].preco,
         });
       } 
+      setProdutos(listaDeProdutos);
 
     } catch (error) {
       console.error('[ERRO]: em Get do /produtos')
@@ -51,7 +54,21 @@ export default function App() {
       </View>
       <FlashList
         data={produtos}
-        renderItem={  ({ item }) => <Text style={styles.item}>{nomeProduto}</Text>   }
+        renderItem={  ({ item }) => 
+          <View style={styles.item}>
+            <Text>{item.nome} - R${item.preco},00</Text>
+
+            <View style={styles.linha}>
+              <TouchableOpacity>
+                <MaterialIcons name="edit-square" size={22}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <MaterialIcons name="highlight-remove" size={22}/>
+              </TouchableOpacity>
+            </View>
+          </View>
+      }
       />
     </View>
   );
@@ -67,6 +84,8 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-around'
   },
   input: {
     borderWidth: 1,
@@ -83,6 +102,6 @@ const styles = StyleSheet.create({
   },
   linha: {
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    gap: 15
   }
 });
