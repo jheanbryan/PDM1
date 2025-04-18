@@ -15,7 +15,7 @@ const API_URL = 'http://localhost:3000';
 export default function App() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [nomeProduto, setNomeProduto] = useState('');
-  const [nprecoProduto, precoProduto] = useState(0);
+  const [precoProduto, setPrecoProduto] = useState('');
 
   useEffect(() => {
     getProdutos();
@@ -40,14 +40,43 @@ export default function App() {
     }
   };
 
-  const addProduto = () => {
-    
+  const addProduto = async () => {
+    try {
+      const novoProduto = {
+        nome: nomeProduto,
+        preco: precoProduto,
+      };
+
+      await axios.post(`${API_URL}/produto`, novoProduto);
+      await getProdutos();
+      setNomeProduto('');
+      setPrecoProduto('');
+      
+  
+
+    } catch (error) {
+      console.error('[ERRO]: em post do /produto')
+    }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.linha}>
-        <TextInput style={styles.input} value={nomeProduto} placeholder="Digite algo..." onChangeText={setNomeProduto}></TextInput>
+
+        <TextInput 
+          style={styles.input} 
+          value={nomeProduto} 
+          placeholder="Digite o nome..." 
+          onChangeText={setNomeProduto}
+        />
+
+        <TextInput 
+          style={styles.input} 
+          value={precoProduto} 
+          placeholder="Digite o preço..." 
+          onChangeText={setPrecoProduto}
+        />
+
         <TouchableOpacity style={styles.button} onPress={addProduto}>
           <Text style={{color: 'white'}}>Add</Text>
         </TouchableOpacity>
