@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { View, TextInput, Text } from "react-native";
 
 
-export default function Detalhes() {
+export default function Dashboard() {
     const navigation = useNavigation<any>();
   return(
     <View>
