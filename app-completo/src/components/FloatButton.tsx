@@ -5,9 +5,13 @@ import InputSearch from '../components/InputSearch'
 
 import Entypo from '@expo/vector-icons/Entypo';
 
-export default function FloatButton() {
+interface onPressType {
+  onPress: () => void;
+}
+
+export default function FloatButton({ onPress }: onPressType) {
   return (
-    <TouchableOpacity  style={styles.btnPlus}>
+    <TouchableOpacity  style={styles.btnPlus} onPress={onPress}>
       <Entypo name="plus" size={24} color="#fff" />
     </TouchableOpacity>
   );

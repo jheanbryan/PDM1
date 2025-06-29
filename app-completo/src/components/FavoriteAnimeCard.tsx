@@ -1,7 +1,12 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 
-export default function FavoriteAnimeCard() {
+  interface onPressType {
+    onPress: () => void;
+  }
+
+export default function FavoriteAnimeCard({ onPress }: onPressType) {
+
   return (
     <View style={styles.cardFavAnime}>
       <View style={styles.info}>
@@ -11,7 +16,7 @@ export default function FavoriteAnimeCard() {
       </View>
 
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.iconButton}>
+        <TouchableOpacity style={styles.iconButton} onPress={onPress}>
           <Entypo name="edit" size={20} color="#fff" />
         </TouchableOpacity>
 

@@ -5,15 +5,22 @@ import Entypo from '@expo/vector-icons/Entypo';
 import InputSearch from '../components/InputSearch';
 import FloatButton from '../components/FloatButton';
 import FavoriteAnimeCard from '../components/FavoriteAnimeCard';
+import ModalAnime from '../components/ModalAnime';
+import { useState } from 'react';
 
 export default function Favorites() {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <InputSearch />
-      
-      <FloatButton />
 
-      <FavoriteAnimeCard />
+      <FavoriteAnimeCard onPress={() => setModalVisible(true)}/>
+
+      <FloatButton onPress={() => setModalVisible(true)}/>
+
+      <ModalAnime visible={modalVisible} onClose={() => setModalVisible(false)} />
+
     </View>
   );
 }
