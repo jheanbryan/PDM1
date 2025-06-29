@@ -1,0 +1,57 @@
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Entypo from "@expo/vector-icons/Entypo";
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+import Search from "./Screens/Search";
+import Settings from "./Screens/Settings";
+import Favorites from "./Screens/Favorites";
+
+const Tab = createBottomTabNavigator();
+
+export default function Routes() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: "#121212",
+          borderTopColor: "#333",
+          height: 60,
+        },
+        tabBarActiveTintColor: "#fff",
+        tabBarInactiveTintColor: "#888",
+      }}
+    >
+      <Tab.Screen
+        name="Favoritos"
+        component={Favorites}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Entypo name="heart" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Buscar"
+        component={Search}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Entypo name="magnifying-glass" size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Configurações"
+        component={Settings}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="settings" size={size} color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
