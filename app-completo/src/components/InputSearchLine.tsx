@@ -1,6 +1,10 @@
-import { StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
+import { StyleSheet, TextInput, View, TouchableOpacity, Text } from "react-native";
+import { onPressType } from "../types/onPress";
+import { useState } from "react";
 
-export default function InputSearch() {
+export default function InputSearchLine({ onPress }: onPressType) {
+  const [input, setInput] = useState('');
+
   return (
     <View style={styles.inputArea}>
       <TextInput
@@ -8,9 +12,13 @@ export default function InputSearch() {
         placeholder='Busque por um anime'
         placeholderTextColor="#aaa"
         keyboardType="default"
+        value={input}
+        onChangeText={setInput}
       />
 
-      <TouchableOpacity style={styles.btn}>Buscar</TouchableOpacity>
+      <TouchableOpacity style={styles.btn} onPress={() => onPress(input)}>
+        <Text>Buscar</Text>
+      </TouchableOpacity>
     </View>
   );
 }

@@ -1,13 +1,36 @@
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { useState } from 'react';
 
+import InputSearchLine from '../components/InputSearchLine'
 import AnimeCard from '../components/AnimeCard';
-import InputSearch from '../components/InputSearch'
-import FloatButton from '../components/FloatButton';
+import { searchAnime } from '../services/jikan';
+import { Anime } from '../models/Anime';
+
 
 export default function Search() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [animes, setAnimes] = useState<Anime[]>([]);
+
+  const handleSearchInput = async (value: string) => {
+    setSearchTerm(value);
+
+    try {
+      const animeData = await searchAnime(value);
+      console.log(animeData);
+      setAnimes(animeData);
+
+    } catch (error) {
+      console.error('Erro ao buscar animes:', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <InputSearch />
+      <InputSearchLine onPress={handleSearchInput}/>
+
+      {animes.map(anime => (
+          <AnimeCard key={anime.mal_id} anime={anime} />
+      ))}
 
     </View>
   );

@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import Entypo from '@expo/vector-icons/Entypo';
 
-import InputSearch from '../components/InputSearch';
+import InputSearch from '../components/InputSearchLine';
 import FloatButton from '../components/FloatButton';
 import FavoriteAnimeCard from '../components/FavoriteAnimeCard';
 import ModalAnime from '../components/ModalAnime';
@@ -13,7 +13,7 @@ export default function Favorites() {
 
   return (
     <View style={styles.container}>
-      <InputSearch />
+      <InputSearch onPress={() => onPress}/>
 
       <FavoriteAnimeCard onPress={() => setModalVisible(true)}/>
 

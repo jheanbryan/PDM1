@@ -1,9 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 
-  interface onPressType {
-    onPress: () => void;
-  }
+import { onPressType } from '../types/onPress'
 
 export default function FavoriteAnimeCard({ onPress }: onPressType) {
 

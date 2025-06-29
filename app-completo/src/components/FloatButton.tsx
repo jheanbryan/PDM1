@@ -1,7 +1,7 @@
 import { StyleSheet, TextInput, View, TouchableOpacity } from 'react-native';
 
 import AnimeCard from '../components/AnimeCard';
-import InputSearch from '../components/InputSearch'
+import InputSearch from './InputSearchLine'
 
 import Entypo from '@expo/vector-icons/Entypo';
 

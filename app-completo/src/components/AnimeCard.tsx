@@ -1,26 +1,29 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Anime } from '../models/Anime';
-import profileImage from '../../assets/image.jpg';
 import Entypo from "@expo/vector-icons/Entypo";
 
+interface Props {
+  anime: Anime;
+}
 
-export default function AnimeCard() {
+export default function AnimeCard({ anime }: Props) {
   return (
     <View style={styles.card}>
       <Image
-        source={ profileImage }
+        source={{ uri: anime.images.jpg.image_url }}
         style={styles.image}
         resizeMode="cover"
       />
       <View style={styles.info}>
-        <Text style={styles.title}>Dragon Ball Super</Text>
-        <Text style={styles.details}>Nota: 9.2</Text>
-        <Text style={styles.details}>Detalhes: mais detalhes e tal tal</Text>
-        <TouchableOpacity style={styles.favButton}>
-          Adicionar como favorito <Entypo name="heart" size={24} />
-        </TouchableOpacity>
+        <Text style={styles.title}>{anime.title}</Text>
+        <Text style={styles.details}>Nota: {anime.score ?? 'N/A'}</Text>
+        <Text style={styles.details}>Episódios: {anime.episodes ?? '??'}</Text>
 
+        <TouchableOpacity style={styles.favButton}>
+          <Text style={{ color: '#fff' }}>Favoritar</Text>
+          <Entypo name="heart" size={20} color="#fff" />
+        </TouchableOpacity>
       </View>
     </View>
   );
