@@ -1,12 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Routes from './src/routes';
-import { NavigationContainer } from '@react-navigation/native';
+// App.tsx
+import React from "react";
+import Routes from "./src/Routes/index";
+import { AuthProvider } from "./src/Context/AuthContext";
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <AuthProvider>
       <Routes />
-    </NavigationContainer>
+    </AuthProvider>
   );
 }

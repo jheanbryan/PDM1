@@ -1,15 +1,16 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import Search from "./Screens/Search";
-import Settings from "./Screens/Settings";
-import Favorites from "./Screens/Favorites";
+import WelcomeScreen from "../Screens/Welcome";
+import SearchScreen from "../Screens/Search";
+import SettingsScreen from "../Screens/Settings";
 
 const Tab = createBottomTabNavigator();
 
-export default function Routes() {
+export default function TabNavigationRoutes() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -25,7 +26,7 @@ export default function Routes() {
     >
       <Tab.Screen
         name="Favoritos"
-        component={Favorites}
+        component={WelcomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Entypo name="heart" size={size} color={color} />
@@ -35,7 +36,7 @@ export default function Routes() {
 
       <Tab.Screen
         name="Buscar"
-        component={Search}
+        component={SearchScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Entypo name="magnifying-glass" size={size} color={color} />
@@ -45,7 +46,7 @@ export default function Routes() {
 
       <Tab.Screen
         name="Configurações"
-        component={Settings}
+        component={SettingsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings" size={size} color={color} />

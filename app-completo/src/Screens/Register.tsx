@@ -1,8 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Register() {
+export default function RegisterScreen() {
+  const navigation = useNavigation();
+  
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -43,6 +46,10 @@ export default function Register() {
 
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Cadastrar</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.linkText}>Já Tem uma Conta? Clique aqui para fazer Login</Text>
       </TouchableOpacity>
     </View>
   );
@@ -100,4 +107,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
   },
+    linkText: {
+    color: '#3f51b5',
+    textDecorationLine: 'underline'
+  }
 });

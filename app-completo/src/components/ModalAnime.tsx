@@ -16,7 +16,6 @@ export default function ModalAnime({ visible, onClose, onSave }: Props) {
   });
 
   function saveFavoriteAnime() {
-    console.log('Salvando anime:', anime);
     onSave(anime); // envia para o componente pai
     setAnime({ name: '', rating: '', description: '' }); 
     onClose();
@@ -65,9 +64,6 @@ export default function ModalAnime({ visible, onClose, onSave }: Props) {
     </Modal>
   );
 }
-
-// seus styles continuam os mesmos
-
 
 const styles = StyleSheet.create({
   overlay: {

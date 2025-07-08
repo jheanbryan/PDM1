@@ -1,10 +1,13 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import Entypo from '@expo/vector-icons/Entypo';
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import Entypo from "@expo/vector-icons/Entypo";
+import { FavoriteAnimeCardProps } from "../types/AnimeTypes";
 
-import { onPressType } from '../types/OnPress'
-
-export default function FavoriteAnimeCard({ onPress }: onPressType, name: string, rating: string, description: string) {
-
+export default function FavoriteAnimeCard({
+  name,
+  rating,
+  description,
+  onPress,
+}: FavoriteAnimeCardProps) {
   return (
     <View style={styles.cardFavAnime}>
       <View style={styles.info}>
@@ -28,16 +31,16 @@ export default function FavoriteAnimeCard({ onPress }: onPressType, name: string
 
 const styles = StyleSheet.create({
   cardFavAnime: {
-    backgroundColor: '#1e1e1e',
+    backgroundColor: "#1e1e1e",
     borderRadius: 10,
     padding: 16,
     marginVertical: 8,
     marginHorizontal: 16,
     borderWidth: 1,
-    borderColor: '#333',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    borderColor: "#333",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     elevation: 3,
   },
   info: {
@@ -45,23 +48,23 @@ const styles = StyleSheet.create({
     paddingRight: 8,
   },
   title: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 4,
   },
   details: {
-    color: '#aaa',
+    color: "#aaa",
     fontSize: 14,
     marginBottom: 2,
   },
   actions: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
   },
   iconButton: {
     padding: 8,
-    backgroundColor: '#2c2c2c',
+    backgroundColor: "#2c2c2c",
     borderRadius: 6,
   },
 });

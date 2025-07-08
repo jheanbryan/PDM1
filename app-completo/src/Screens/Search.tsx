@@ -7,7 +7,7 @@ import { searchAnime } from '../services/jikan';
 import { Anime } from '../models/Anime';
 import { ScrollView } from 'react-native-gesture-handler';
 
-export default function Search() {
+export default function SearchScreen() {
   const [searchTerm, setSearchTerm] = useState('');
   const [animes, setAnimes] = useState<Anime[]>([]);
   const [limit, setLimit] = useState(50);

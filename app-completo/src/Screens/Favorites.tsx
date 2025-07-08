@@ -8,12 +8,11 @@ import FloatButton from '../components/FloatButton';
 import InputSearchLine from '../components/InputSearchLine';
 import FavoriteAnimeCard from '../components/FavoriteAnimeCard';
 
-export default function Favorites() {
+export default function FavoritesScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [animesList, setAnimesList] = useState<Anime[]>([]);
 
   function handleAddAnime(newAnime: Anime) {
-    console.log('Adicionando ao Favorites:', newAnime);
     setAnimesList(prev => [...prev, newAnime]);
   }
 
@@ -21,11 +20,14 @@ export default function Favorites() {
     <View style={styles.container}>
       <InputSearchLine onPress={() => {}} />
 
+      {animesList.length == 0 && (
+        <Text  style={{ color: 'white', textAlign: 'center', marginTop: 0}}>Nenhum anime favorito.</Text>
+      )}
 
       <FlatList
         data={animesList}
         keyExtractor={(item, index) => `${item.name}-${index}`}
-        renderItem={({ item }) => ( <FavoriteAnimeCard name={item.name} rating={item.rating} description={item.description}/>)}
+        renderItem={({ item }) => ( <FavoriteAnimeCard onPress={() => {}} name={item.name} rating={item.rating} description={item.description}/>)}
       />
 
       <FloatButton onPress={() => setModalVisible(true)} />
@@ -35,6 +37,8 @@ export default function Favorites() {
         onClose={() => setModalVisible(false)}
         onSave={handleAddAnime}
       />
+
+
     </View>
   );
 }
