@@ -1,35 +1,49 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native';
 
-import Entypo from '@expo/vector-icons/Entypo';
 
-import InputSearch from '../components/InputSearchLine';
-import FloatButton from '../components/FloatButton';
-import FavoriteAnimeCard from '../components/FavoriteAnimeCard';
+import React, { useState } from 'react';
+import { View, FlatList, StyleSheet, Text } from 'react-native';
 import ModalAnime from '../components/ModalAnime';
-import { useState } from 'react';
+import { Anime } from '../types/AnimeTypes';
+import FloatButton from '../components/FloatButton';
+import InputSearchLine from '../components/InputSearchLine';
+import FavoriteAnimeCard from '../components/FavoriteAnimeCard';
 
 export default function Favorites() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [animesList, setAnimesList] = useState<Anime[]>([]);
+
+  function handleAddAnime(newAnime: Anime) {
+    console.log('Adicionando ao Favorites:', newAnime);
+    setAnimesList(prev => [...prev, newAnime]);
+  }
 
   return (
     <View style={styles.container}>
-      <InputSearch onPress={() => onPress}/>
+      <InputSearchLine onPress={() => {}} />
 
-      <FavoriteAnimeCard onPress={() => setModalVisible(true)}/>
 
-      <FloatButton onPress={() => setModalVisible(true)}/>
+      <FlatList
+        data={animesList}
+        keyExtractor={(item, index) => `${item.name}-${index}`}
+        renderItem={({ item }) => ( <FavoriteAnimeCard name={item.name} rating={item.rating} description={item.description}/>)}
+      />
 
-      <ModalAnime visible={modalVisible} onClose={() => setModalVisible(false)} />
+      <FloatButton onPress={() => setModalVisible(true)} />
 
+      <ModalAnime
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onSave={handleAddAnime}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
+  container: {
     flex: 1,
     backgroundColor: '#121212',
     paddingTop: 50,
     paddingHorizontal: 16,
-  }
+  },
 });

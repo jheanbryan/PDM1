@@ -1,16 +1,16 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 
-import { onPressType } from '../types/onPress'
+import { onPressType } from '../types/OnPress'
 
-export default function FavoriteAnimeCard({ onPress }: onPressType) {
+export default function FavoriteAnimeCard({ onPress }: onPressType, name: string, rating: string, description: string) {
 
   return (
     <View style={styles.cardFavAnime}>
       <View style={styles.info}>
-        <Text style={styles.title}>Dragon Ball Super</Text>
-        <Text style={styles.details}>Nota: 9.2</Text>
-        <Text style={styles.details}>Detalhes: mais detalhes e tal tal</Text>
+        <Text style={styles.title}>Nome: {name}</Text>
+        <Text style={styles.details}>Nota: {rating}</Text>
+        <Text style={styles.details}>Detalhes: {description}</Text>
       </View>
 
       <View style={styles.actions}>

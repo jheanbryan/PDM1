@@ -1,50 +1,73 @@
-import React from 'react';
-import { Modal, View, Text, StyleSheet, Pressable } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import React, { useState } from 'react';
+import { Modal, View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
+import { Anime } from '../types/AnimeTypes';
 
 interface Props {
   visible: boolean;
   onClose: () => void;
+  onSave: (anime: Anime) => void;
 }
 
-export default function ModalAnime({ visible, onClose }: Props) {
+export default function ModalAnime({ visible, onClose, onSave }: Props) {
+  const [anime, setAnime] = useState<Anime>({
+    name: '',
+    rating: '',
+    description: '',
+  });
+
+  function saveFavoriteAnime() {
+    console.log('Salvando anime:', anime);
+    onSave(anime); // envia para o componente pai
+    setAnime({ name: '', rating: '', description: '' }); 
+    onClose();
+  }
+
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.modal}>
           <Text style={styles.text}>Novo</Text>
+
           <TextInput
             style={styles.input}
             placeholder='Digite o nome do anime'
             placeholderTextColor="#aaa"
-            keyboardType="default"
+            value={anime.name}
+            onChangeText={(text) => setAnime({ ...anime, name: text })}
           />
 
           <TextInput
             style={styles.input}
             placeholder='Digite a nota'
             placeholderTextColor="#aaa"
-            keyboardType="default"
+            value={anime.rating}
+            onChangeText={(text) => setAnime({ ...anime, rating: text })}
           />
 
           <TextInput
             style={styles.input}
             placeholder='Digite uma descrição'
             placeholderTextColor="#aaa"
-            keyboardType="default"
+            value={anime.description}
+            onChangeText={(text) => setAnime({ ...anime, description: text })}
           />
 
-          <Pressable onPress={onClose}>
-            <View style={styles.lineButtons}>
+          <View style={styles.lineButtons}>
+            <Pressable onPress={saveFavoriteAnime}>
               <Text style={styles.saveBtn}>Salvar</Text>
+            </Pressable>
+            <Pressable onPress={onClose}>
               <Text style={styles.closeBtn}>Fechar</Text>
-            </View>
-          </Pressable>
+            </Pressable>
+          </View>
         </View>
       </View>
     </Modal>
   );
 }
+
+// seus styles continuam os mesmos
+
 
 const styles = StyleSheet.create({
   overlay: {

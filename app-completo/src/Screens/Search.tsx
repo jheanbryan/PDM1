@@ -1,15 +1,16 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Picker } from 'react-native';
 import { useState } from 'react';
 
 import InputSearchLine from '../components/InputSearchLine'
 import AnimeCard from '../components/AnimeCard';
 import { searchAnime } from '../services/jikan';
 import { Anime } from '../models/Anime';
-
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState('');
   const [animes, setAnimes] = useState<Anime[]>([]);
+  const [limit, setLimit] = useState(50);
 
   const handleSearchInput = async (value: string) => {
     setSearchTerm(value);
@@ -26,12 +27,31 @@ export default function Search() {
 
   return (
     <View style={styles.container}>
-      <InputSearchLine onPress={handleSearchInput}/>
+      <InputSearchLine onPress={handleSearchInput} />
 
-      {animes.map(anime => (
+      {/* Picker de filtro */}
+      <Picker
+        selectedValue={limit}
+        style={styles.picker}
+        onValueChange={(itemValue: any) => setLimit(itemValue)}
+      >
+        <Picker.Item label="50 resultados" value={50} />
+        <Picker.Item label="20 resultados" value={20} />
+        <Picker.Item label="10 resultados" value={10} />
+      </Picker>
+
+      <ScrollView>
+        {animes.slice(0, limit).map(anime => (
           <AnimeCard key={anime.mal_id} anime={anime} />
-      ))}
+          ))
+        }
 
+        {animes.length === 0 && (
+          <Text style={{ color: 'white', textAlign: 'center', marginTop: 20 }}>
+            Nenhum anime encontrado.
+          </Text>
+        )}
+      </ScrollView>
     </View>
   );
 }
@@ -42,5 +62,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
     paddingTop: 50,
     paddingHorizontal: 16,
-  }
+  },
+  picker: {
+    color: 'white',
+    backgroundColor: '#1e1e1e',
+    marginBottom: 10,
+  },
 });
