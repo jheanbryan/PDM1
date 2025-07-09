@@ -1,11 +1,54 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
+import * as SQLite from 'expo-sqlite';
+import { useEffect, useState } from 'react';
+import { initializeDatabase } from '../database/database';
 
 export default function RegisterScreen() {
   const navigation = useNavigation();
-  
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [db, setDb] = useState<SQLite.SQLiteDatabase | null>(null);
+
+  useEffect(() => {
+    async function setup() {
+      const database = await SQLite.openDatabaseAsync('animeDatabase.db');
+      await initializeDatabase(database);
+      setDb(database);
+    }
+    setup();
+  }, []);
+
+  async function addNewUser(name: string, email: string, password: string) {
+    if (!name || !email || !password) {
+      Alert.alert("Erro", "Preencha todos os campos.");
+      return;
+    }
+
+    try {
+      await db?.runAsync(
+        `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
+        [name, email, password]
+      );
+
+      const allUsers = await db?.getAllAsync('SELECT * FROM users');
+      console.log("Usuários cadastrados:", allUsers);
+
+      Alert.alert("Sucesso", "Usuário cadastrado com sucesso!");
+      navigation.navigate('Login');
+    } catch (error: any) {
+      if (error?.message?.includes("UNIQUE")) {
+        Alert.alert("Erro", "Este e-mail já está cadastrado.");
+      } else {
+        Alert.alert("Erro", "Erro ao cadastrar usuário.");
+        console.error(error);
+      }
+    }
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -21,6 +64,8 @@ export default function RegisterScreen() {
           style={styles.input}
           placeholder="Digite seu nome"
           placeholderTextColor="#aaa"
+          value={name}
+          onChangeText={setName}
         />
       </View>
 
@@ -31,6 +76,8 @@ export default function RegisterScreen() {
           placeholder="Digite seu email"
           placeholderTextColor="#aaa"
           keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
         />
       </View>
 
@@ -41,15 +88,17 @@ export default function RegisterScreen() {
           placeholder="Digite sua senha"
           placeholderTextColor="#aaa"
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
       </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => addNewUser(name, email, password)}>
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.linkText}>Já Tem uma Conta? Clique aqui para fazer Login</Text>
+        <Text style={styles.linkText}>Já tem uma conta? Clique aqui para fazer login</Text>
       </TouchableOpacity>
     </View>
   );
@@ -95,7 +144,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 16,
-    backgroundColor: '#3f51b5',
+    backgroundColor: '#4CAF50',
     paddingVertical: 14,
     paddingHorizontal: 32,
     borderRadius: 8,
@@ -107,8 +156,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
   },
-    linkText: {
-    color: '#3f51b5',
+  linkText: {
+    color: '#4CAF50',
     textDecorationLine: 'underline'
   }
 });

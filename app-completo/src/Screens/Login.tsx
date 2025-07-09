@@ -3,6 +3,8 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-nativ
 import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 
+import { SQLiteProvider } from 'expo-sqlite';
+
 export default function LoginScreen() {
   const navigation = useNavigation();
   
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 16,
-    backgroundColor: '#3f51b5',
+    backgroundColor: '#4CAF50',
     paddingVertical: 14,
     paddingHorizontal: 32,
     borderRadius: 8,
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   linkText: {
-    color: '#3f51b5',
+    color: '#4CAF50',
     textDecorationLine: 'underline'
   }
 });

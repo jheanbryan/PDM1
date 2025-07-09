@@ -18,10 +18,13 @@ export default function WelcomeScreen() {
       </View>
 
       <View style={styles.cardBottom}>
+        <View  style={{backgroundColor: '#fff', borderRadius: 20, padding: 0}}>
         <Image
-          source={require('../../assets/logo.jpg')} 
+          source={require('../../assets/logo2.png')} 
           style={styles.logo}
         />
+        </View>
+
         <Text style={styles.title}>Bem-vindo ao AnimeHub</Text>
         <Text style={styles.subtitle}>
           Descubra, favorite e salve seus animes favoritos!
@@ -60,9 +63,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    borderRadius: '50%',
-    width: '100%',
-    height: '100%',
+    width: 150,
+    height: 150,
   },
   title: {
     fontSize: 26,
@@ -70,6 +72,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginBottom: 8,
     textAlign: 'center',
+    marginTop: 15
+
   },
   subtitle: {
     fontSize: 16,
