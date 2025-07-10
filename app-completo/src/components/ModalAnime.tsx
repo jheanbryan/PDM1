@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#333",
     fontSize: 16,
-    flex: 1,
   },
   lineButtons:{
     flexDirection: 'row',

@@ -1,13 +1,55 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 
-import { SQLiteProvider } from 'expo-sqlite';
+import * as SQLite from 'expo-sqlite';
+import { useEffect, useState } from 'react';
+
+import { initializeDatabase } from '../database/database';
+import { useAuth } from '../Context/AuthContext';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
-  
+  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [db, setDb] = useState<SQLite.SQLiteDatabase | null>(null);
+
+  useEffect(() => {
+    async function setup() {
+      const database = await SQLite.openDatabaseAsync('animeDatabase.db');
+      await initializeDatabase(database);
+      setDb(database);
+    }
+    setup();
+  }, []);
+
+  async function handleLogin() {
+    if (!email || !password) {
+      Alert.alert("Erro", "Preencha todos os campos.");
+      return;
+    }
+
+    try {
+      const result = await db?.getAllAsync(
+        'SELECT * FROM users WHERE email = ? AND password = ?',
+        [email, password]
+      );
+
+      if (result && result.length > 0) {
+        const user: any = result[0];
+        login({ id: user.id, name: user.name, email: user.email }); 
+
+      } else {
+        Alert.alert("Erro", "Email ou senha incorretos.");
+      }
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
+      Alert.alert("Erro", "Ocorreu um erro ao tentar fazer login.");
+    }
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -24,6 +66,8 @@ export default function LoginScreen() {
           placeholder="Digite seu email"
           placeholderTextColor="#aaa"
           keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
         />
       </View>
 
@@ -34,10 +78,12 @@ export default function LoginScreen() {
           placeholder="Digite sua senha"
           placeholderTextColor="#aaa"
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
         />
       </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
 

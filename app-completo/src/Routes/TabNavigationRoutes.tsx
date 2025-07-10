@@ -4,9 +4,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import WelcomeScreen from "../Screens/Welcome";
 import SearchScreen from "../Screens/Search";
 import SettingsScreen from "../Screens/Settings";
+import FavoritesScreen from "../Screens/Favorites";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +26,7 @@ export default function TabNavigationRoutes() {
     >
       <Tab.Screen
         name="Favoritos"
-        component={WelcomeScreen}
+        component={FavoritesScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Entypo name="heart" size={size} color={color} />

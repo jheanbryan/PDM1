@@ -1,12 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useAuth } from '../Context/AuthContext';
 
 export default function SettingsScreen() {
-  const user = {
-    nome: 'Jhean Bryan',
-    email: 'jhean@email.com',
-  };
+  const { user } = useAuth();
 
   const handleLogout = () => {
     Alert.alert('Logout', 'Você saiu da conta!');
@@ -18,7 +16,7 @@ export default function SettingsScreen() {
 
       <View style={styles.section}>
         <Text style={styles.label}>Nome:</Text>
-        <Text style={styles.value}>{user.nome}</Text>
+        <Text style={styles.value}>{user.name}</Text>
 
         <Text style={styles.label}>Email:</Text>
         <Text style={styles.value}>{user.email}</Text>
@@ -37,6 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#121212',
     padding: 20,
+    paddingTop: 50,
   },
   title: {
     fontSize: 22,

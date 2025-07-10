@@ -18,7 +18,8 @@ export default function RegisterScreen() {
       const database = await SQLite.openDatabaseAsync('animeDatabase.db');
       await initializeDatabase(database);
       setDb(database);
-    }
+    };
+
     setup();
   }, []);
 
@@ -34,14 +35,13 @@ export default function RegisterScreen() {
         [name, email, password]
       );
 
-      const allUsers = await db?.getAllAsync('SELECT * FROM users');
-      console.log("Usuários cadastrados:", allUsers);
-
       Alert.alert("Sucesso", "Usuário cadastrado com sucesso!");
       navigation.navigate('Login');
+
     } catch (error: any) {
       if (error?.message?.includes("UNIQUE")) {
         Alert.alert("Erro", "Este e-mail já está cadastrado.");
+
       } else {
         Alert.alert("Erro", "Erro ao cadastrar usuário.");
         console.error(error);
