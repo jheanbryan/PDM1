@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { use } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../Context/AuthContext';
 
 export default function SettingsScreen() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     Alert.alert('Logout', 'Você saiu da conta!');
+    logout();
   };
 
   return (

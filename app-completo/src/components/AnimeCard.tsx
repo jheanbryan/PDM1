@@ -5,11 +5,12 @@ import Entypo from "@expo/vector-icons/Entypo";
 
 interface Props {
   anime: Anime;
+  onPress?: () => void;
 }
 
-export default function AnimeCard({ anime }: Props) {
+export default function AnimeCard({ anime, onPress }: Props) {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onPress}>
       <Image
         source={{ uri: anime.images.jpg.image_url }}
         style={styles.image}
@@ -20,12 +21,12 @@ export default function AnimeCard({ anime }: Props) {
         <Text style={styles.details}>Nota: {anime.score ?? 'N/A'}</Text>
         <Text style={styles.details}>Episódios: {anime.episodes ?? '??'}</Text>
 
-        <TouchableOpacity style={styles.favButton}>
+        <View style={styles.favButton}>
           <Text style={{ color: '#fff' }}>Favoritar</Text>
           <Entypo name="heart" size={20} color="#fff" />
-        </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

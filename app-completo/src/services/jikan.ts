@@ -18,3 +18,23 @@ export async function searchAnime(query: string): Promise<Anime[]> {
 
   return allResults;
 }
+
+
+export async function getAnimeDetails(id: number) {
+  try {
+    const [detailsRes, picturesRes] = await Promise.all([
+      api.get(`/anime/${id}`),
+      api.get(`/anime/${id}/pictures`),
+    ]);
+
+    return {
+      details: detailsRes.data.data,
+      images: picturesRes.data.data.map((pic: any) => pic.jpg.image_url),
+    };
+  } catch (error) {
+    console.error('Erro ao buscar detalhes do anime:', error);
+    return null;
+  }
+}
+
+

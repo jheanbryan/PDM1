@@ -1,5 +1,5 @@
 import { StyleSheet, TextInput, View, TouchableOpacity, Text } from "react-native";
-import { onPressType } from "../types/onPress";
+import { onPressType } from "../types/OnPress";
 import { useState } from "react";
 
 export default function InputSearchLine({ onPress }: onPressType) {

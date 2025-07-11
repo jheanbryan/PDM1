@@ -12,17 +12,18 @@ import { useAuth } from "../Context/AuthContext";
 
 export default function FavoritesScreen() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [animesList, setAnimesList] = useState<Anime[]>([]);
   const [db, setDb] = useState<SQLite.SQLiteDatabase | null>(null);
   const { user } = useAuth();
+  const [animesList, setAnimesList] = useState<Anime[]>([]);
+  const [allAnimesList, setAllAnimesList] = useState<Anime[]>([]);
 
   useEffect(() => {
-    async function loadDb() {
+    async function setup() {
       const database = await SQLite.openDatabaseAsync("animeDatabase.db");
       setDb(database);
     }
 
-    loadDb();
+    setup();
   }, []);
 
   useEffect(() => {
@@ -33,11 +34,28 @@ export default function FavoritesScreen() {
         `SELECT anime as name, rating, description FROM favorite_anime WHERE user_id = ?`,
         [user.id]
       );
+      console.log(result)
       setAnimesList(result);
+      setAllAnimesList(result);
     }
 
     loadFavorites();
   }, [db, user]);
+
+    function handleSearch(query: string) {
+      setAnimesList(allAnimesList); 
+
+    if (!query) {
+      setAnimesList(allAnimesList); 
+      return;
+    }
+
+    const filtered = allAnimesList.filter(anime =>
+      anime.name.toLowerCase().includes(query.toLowerCase())
+    );
+
+    setAnimesList(filtered);
+  }
 
   async function handleAddAnime(newAnime: Anime) {
     if (!db || !user?.id) return;
@@ -58,7 +76,7 @@ export default function FavoritesScreen() {
 
   return (
     <View style={styles.container}>
-      <InputSearchLine onPress={() => {}} />
+      <InputSearchLine onPress={handleSearch} />
 
       {animesList.length == 0 && (
         <Text style={{ color: "white", textAlign: "center", marginTop: 0 }}>
