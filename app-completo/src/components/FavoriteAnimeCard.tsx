@@ -1,13 +1,20 @@
+// src/components/FavoriteAnimeCard.tsx
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import { FavoriteAnimeCardProps } from "../types/AnimeTypes";
+
+interface Props extends FavoriteAnimeCardProps {
+  onEdit: () => void;
+  onDelete: () => void;
+}
 
 export default function FavoriteAnimeCard({
   name,
   rating,
   description,
-  onPress,
-}: FavoriteAnimeCardProps) {
+  onEdit,
+  onDelete,
+}: Props) {
   return (
     <View style={styles.cardFavAnime}>
       <View style={styles.info}>
@@ -17,17 +24,18 @@ export default function FavoriteAnimeCard({
       </View>
 
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.iconButton} onPress={onPress}>
+        <TouchableOpacity style={styles.iconButton} onPress={onEdit}>
           <Entypo name="edit" size={20} color="#fff" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconButton}>
+        <TouchableOpacity style={styles.iconButton} onPress={onDelete}>
           <Entypo name="trash" size={20} color="#fff" />
         </TouchableOpacity>
       </View>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   cardFavAnime: {

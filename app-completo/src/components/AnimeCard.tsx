@@ -21,7 +21,7 @@ export default function AnimeCard({ anime, onPress }: Props) {
         <Text style={styles.details}>Nota: {anime.score ?? 'N/A'}</Text>
         <Text style={styles.details}>Episódios: {anime.episodes ?? '??'}</Text>
 
-        <View style={styles.favButton}>
+        <View style={styles.favButton} >
           <Text style={{ color: '#fff' }}>Favoritar</Text>
           <Entypo name="heart" size={20} color="#fff" />
         </View>
